@@ -69,7 +69,7 @@ class SteerablePyramid():
 #		self.OUT_PATH = out_path # path to the directory for saving images.
 		self.OUT_PATH = out_path + '/{}' # path to the directory for saving images.
 		## validation of num. of orientaion
-		self.Ks = [4, 6, 8, 10, 12, 15, 18, 20, 30, 60]
+		self.Ks = [2, 4, 6, 8, 10, 12, 15, 18, 20, 30, 60]
 		if not k in self.Ks:
 			LOGGER.error('illegal number of orientation: {}'.format(str(k)))
 			raise ValueError('illegal number of orientation: {}'.format(str(k)))
