@@ -114,44 +114,44 @@ class SteerablePyramid():
 		self.LOW = [] # L1, ...LN
 
 		## CREATE FILTERS
-		# caliculate polar coordinates.
-		self.RS, self.AT = self.caliculate_polar()
+		# calculate polar coordinates.
+		self.RS, self.AT = self.calculate_polar()
 		## for debugging, let coordinates same as Matlab.
 #		for n in range(self.N):
 #			self.RS[n] = self.RS[n].T
 #			self.AT[n] = self.AT[n].T
 
-		# caliculate H0 values on the grid.
-		fil = self.calicurate_h0_filter()
+		# calculate H0 values on the grid.
+		fil = self.calculate_h0_filter()
 		self.H0_FILT = fil
 
-		# caliculate L0 values on the grid.
-		fil = self.calicurate_l0_filter()
+		# calculate L0 values on the grid.
+		fil = self.calculate_l0_filter()
 		self.L0_FILT = fil
 
-		# caliculate L(Low pass filter) values on the grid. 
-		fil = self.calicurate_l_filter()
+		# calculate L(Low pass filter) values on the grid. 
+		fil = self.calculate_l_filter()
 		self.L_FILT = fil
 
-		# caliculate H(fot bandpass filter) values on the grid.
-		fil = self.calicurate_h_filter()
+		# calculate H(fot bandpass filter) values on the grid.
+		fil = self.calculate_h_filter()
 		self.H_FILT = fil
 
-		# caliculate B values on the grid.
-		fils = self.calicurate_b_filters()
+		# calculate B values on the grid.
+		fils = self.calculate_b_filters()
 		self.B_FILT = fils
 
-	# caliculate polar coordinates on the grid.
-	def caliculate_polar(self):
+	# calculate polar coordinates on the grid.
+	def calculate_polar(self):
 		pol = []
 		ang = []
 		for i in range(0, self.N):
-			# caliculate polar coordinates(radius) on the grid. they are in [0, inf).
+			# calculate polar coordinates(radius) on the grid. they are in [0, inf).
 			rs = self.GRID[i].copy()
 			yy, xx= np.meshgrid(self.WX[i], self.WY[i])
 			rs = np.sqrt((xx)**2 + (yy)**2)
 
-			# caliculate angular coordinates(theta) on the grid. they are in (-pi, pi].
+			# calculate angular coordinates(theta) on the grid. they are in (-pi, pi].
 			at= self.GRID[i].copy()
 			_idx = np.where((yy == 0) & (xx < 0))
 			at[_idx] = np.pi
@@ -163,8 +163,8 @@ class SteerablePyramid():
 
 		return pol, ang
 
-	# caliculate H0 values on the grid.
-	def calicurate_h0_filter(self):
+	# calculate H0 values on the grid.
+	def calculate_h0_filter(self):
 		fil = self.GRID[0].copy()
 		fil[np.where(self.RS[0] >= np.pi)] = 1
 		fil[np.where(self.RS[0] < np.pi/2.)] = 0
@@ -184,8 +184,8 @@ class SteerablePyramid():
 
 		return fil
 
-	# caliculate L0 values on the grid.
-	def calicurate_l0_filter(self):
+	# calculate L0 values on the grid.
+	def calculate_l0_filter(self):
 		fil = self.GRID[0].copy()
 		fil[np.where(self.RS[0] >= np.pi)] = 0
 		fil[np.where(self.RS[0] <= np.pi/2.)] = 1
@@ -205,8 +205,8 @@ class SteerablePyramid():
 
 		return fil
 
-	# caliculate L filter values on the grid.
-	def calicurate_l_filter(self):
+	# calculate L filter values on the grid.
+	def calculate_l_filter(self):
 		_f = []
 		for i in range(0, self.N):
 			fil = self.GRID[i].copy()
@@ -229,8 +229,8 @@ class SteerablePyramid():
 
 		return _f
 
-	# caliculate H0 filter values on the grid.
-	def calicurate_h_filter(self):
+	# calculate H0 filter values on the grid.
+	def calculate_h_filter(self):
 		_f = []
 		for i in range(0, self.N):
 			fil = self.GRID[i].copy()
@@ -253,13 +253,13 @@ class SteerablePyramid():
 
 		return _f
 
-	def calicurate_b_filters(self):
+	def calculate_b_filters(self):
 		f_ = []
 		for i in range(0, self.N):
 			fils_ = []
 
 			for k in range(self.K):
-				# caliculate Bk values on the grid.
+				# calculate Bk values on the grid.
 				fil_= np.zeros_like(self.GRID[i], dtype=complex)
 				th1= self.AT[i].copy()
 				th2= self.AT[i].copy()
